@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>望明月 Moongazing</title>
+<meta name="description" content="望明月 Moongazing, an animated music video by Jade Wang: an astronaut spends thirteen months at an international base at the Moon's south pole, while her family looks up at it from Earth. Drawn in ink, silk and gold by JavaScript.">
+<meta property="og:title" content="望明月 Moongazing">
+<meta property="og:description" content="A music video by Jade Wang, set to Li Bai's lines about the Moon. Drawn in ink, silk and gold by JavaScript.">
+<meta property="og:image" content="https://moongazing.cc/img/og.jpg">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="900">
+<meta property="og:image:alt" content="Eight crew members in silhouette under the glass cupola of a Moon base, raising cups toward a small Earth low over the lunar horizon.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://moongazing.cc/img/og.jpg">
+<meta name="twitter:image:alt" content="Eight crew members in silhouette under the glass cupola of a Moon base, raising cups toward a small Earth low over the lunar horizon.">
+<meta name="theme-color" content="#0e1020">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png" sizes="180x180">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: the page moves through the film's three materials. It opens on the night sky (the film), turns to
+   paper for the song (ink on paper, as the lyrics are brushed in the film), and ends on indigo ruled in gold
+   (界画, the film's drawings of the base) for the engineering. The night and the indigo are fixed in both
+   themes; the paper follows the viewer's theme. */
+:root {
+  /* night and indigo (fixed in both themes) */
+  --night: #0e1020;
+  --night-2: #151830;
+  --night-rule: #2a2d48;
+  --moon: #ece5d3;
+  --moon-dim: #a9a49a;
+  --dim: #77748a;
+  --indigo: #1a2149;
+  --indigo-2: #222a5a;
+  --indigo-rule: rgba(217, 182, 112, .26);
+  --gold: #dcb872;
+  --gold-hi: #f0d498;
+  --gold-soft: #ab9461;
+  --cin-night: #e0705a;
+  /* chips, on indigo */
+  --c-moon: #f0d498;
+  --c-earth: #9cc3e8;
+  --c-plan: #c4b2ec;
+  --c-phys: #a8d8b0;
+  --c-made: #f09a84;
+  /* paper (follows the viewer's theme) */
+  --paper: #efe7d6;
+  --paper-2: #e5dac3;
+  --ink: #1d1a17;
+  --ink-soft: #5d564b;
+  --rule: #cdbf9f;
+  --cinnabar: #b03a28;
+  --grain: 0.08;
+  --f-zh: "Ma Shan Zheng", "STXingkai", "Kaiti SC", "KaiTi", serif;
+  --f-zh-text: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --f-lyric: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --f-body: "Source Serif 4", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1b1915; --paper-2: #24211b; --ink: #ebe3d0; --ink-soft: #a9a08d; --rule: #3b362c; --cinnabar: #e27a62; --grain: 0.06;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1b1915; --paper-2: #24211b; --ink: #ebe3d0; --ink-soft: #a9a08d; --rule: #3b362c; --cinnabar: #e27a62; --grain: 0.06;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--night); scroll-padding-top: 4rem; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body {
+  margin: 0; background: var(--night); color: var(--moon);
+  font-family: var(--f-body); font-size: 1.0625rem; line-height: 1.62;
+  -webkit-text-size-adjust: 100%;
+}
+/* paper tooth: one fixed sheet of grain over everything */
+body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: var(--grain);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.47  0 0 0 0 0.42  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+img { max-width: 100%; height: auto; display: block; }
+[hidden] { display: none !important; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.gutter { padding-inline: 16px; }
+.skip { position: absolute; left: 16px; top: -100px; z-index: 100; background: var(--moon); color: var(--night); padding: .4rem .7rem; font: 500 .8rem var(--f-mono); }
+.skip:focus { top: 12px; }
+[lang="zh-Hans"] { font-family: var(--f-zh); }
+
+/* ── top bar ───────────────────────────────────────────── */
+.bar {
+  display: flex; align-items: baseline; justify-content: space-between; gap: .4rem 1rem; flex-wrap: wrap;
+  padding-block: 14px 12px; max-width: 1280px; margin-inline: auto;
+}
+.bar .mark { font: 500 1.15rem/1 var(--f-lyric); letter-spacing: .2em; text-transform: uppercase; text-decoration: none; color: var(--moon); display: flex; align-items: baseline; gap: .55rem; }
+.bar .mark span { font: 400 1.3rem/1 var(--f-zh); letter-spacing: .05em; color: var(--gold); }
+.bar nav { display: flex; gap: .25rem 1.1rem; flex-wrap: wrap; font: 500 .7rem/1.4 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; }
+.bar nav a { color: var(--moon-dim); text-decoration: none; padding-block: .3rem; }
+.bar nav a:hover { color: var(--moon); }
+
+/* ── the film ──────────────────────────────────────────── */
+.film { max-width: 1280px; margin-inline: auto; display: grid; gap: 10px; }
+.screen {
+  position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; margin-inline: auto;
+  background: #000; box-shadow: 0 0 0 1px var(--night-rule), 0 40px 120px -40px rgba(236, 229, 211, .16);
+}
+@supports (height: 1svh) { .screen { max-width: min(100%, calc((100svh - 150px) * 16 / 9)); } }
+@media (min-width: 900px) { .screen { min-width: 840px; } }
+.screen > .poster, .screen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; display: block; }
+.screen > .poster { object-fit: cover; }
+/* while there is no film yet: the title card, and one quiet line */
+.screen .soon {
+  position: absolute; left: 0; right: 0; bottom: 0; margin: 0; padding: clamp(2.5rem, 8vw, 5rem) clamp(14px, 3vw, 28px) clamp(12px, 2.4vw, 22px);
+  background: linear-gradient(to bottom, rgba(14, 16, 32, 0), rgba(14, 16, 32, .72));
+  display: flex; align-items: baseline; gap: .4rem 1rem; flex-wrap: wrap;
+  font: italic 400 clamp(1.15rem, 3.2vw, 1.8rem)/1.1 var(--f-lyric); color: var(--moon);
+}
+.screen .soon span { font: 400 clamp(.9rem, 2vw, 1.2rem)/1 var(--f-zh); font-style: normal; letter-spacing: .1em; color: var(--gold); }
+.film-notes { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .3rem 1.5rem; font: 400 .72rem/1.5 var(--f-mono); letter-spacing: .06em; color: var(--moon-dim); font-variant-numeric: tabular-nums; }
+
+/* ── title ─────────────────────────────────────────────── */
+.title { max-width: 1280px; margin-inline: auto; padding-block: clamp(2.5rem, 7vw, 5rem) clamp(3rem, 8vw, 5.5rem); display: grid; gap: 2rem; }
+@media (min-width: 900px) { .title { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); align-items: end; } }
+.stamp { display: flex; flex-wrap: wrap; gap: .3rem 1.2rem; font: 500 .7rem/1.4 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--moon-dim); margin: 0 0 1.2rem; }
+.stamp .g { color: var(--gold); }
+h1 { margin: 0; display: flex; align-items: flex-end; gap: clamp(.8rem, 3vw, 1.6rem); flex-wrap: wrap; }
+h1 .zh { font: 400 clamp(4.4rem, 18vw, 9.5rem)/.95 var(--f-zh); color: var(--moon); letter-spacing: .02em; }
+h1 .en { font: 500 clamp(1.1rem, 3.4vw, 1.7rem)/1 var(--f-lyric); letter-spacing: .42em; text-transform: uppercase; color: var(--moon-dim); padding-bottom: .55em; }
+.seal { display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; border: 2px solid var(--cin-night); border-radius: 3px; color: var(--cin-night); font: 400 1.25rem/1 var(--f-zh); margin-bottom: .9em; transform: rotate(-3deg); }
+.by { font: italic 400 clamp(1.5rem, 4.2vw, 2.2rem)/1.1 var(--f-lyric); margin: 1.1rem 0 0; color: var(--moon); }
+.lede { display: grid; gap: .9rem; font-family: var(--f-lyric); font-size: clamp(1.25rem, 2.6vw, 1.5rem); line-height: 1.4; color: var(--moon); }
+.lede p { margin: 0; max-width: 40ch; }
+.lede em { color: var(--gold); font-style: italic; }
+.lede .small { font: 400 .8rem/1.6 var(--f-mono); color: var(--moon-dim); letter-spacing: .02em; max-width: 54ch; }
+.lede .small a { color: var(--gold); }
+
+/* ── night to paper ────────────────────────────────────── */
+.to-paper { height: clamp(7rem, 18vw, 12rem); background: linear-gradient(to bottom, var(--night) 0%, var(--night-2) 25%, var(--paper) 100%); }
+.paper { background: var(--paper); color: var(--ink); }
+
+/* ── lyrics (ink on paper) ─────────────────────────────── */
+.lyrics { max-width: 1280px; margin-inline: auto; padding-block: 1rem clamp(3rem, 8vw, 6rem); }
+.kicker { font: 500 .72rem/1.4 var(--f-mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 .6rem; }
+.lyrics-head { display: grid; gap: .8rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+.lyrics-head h2 { margin: 0; display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.lyrics-head h2 .zh { font: 400 clamp(3rem, 10vw, 5.2rem)/1 var(--f-zh); color: var(--ink); }
+.lyrics-head h2 .en { font: 500 clamp(1rem, 2.6vw, 1.3rem)/1 var(--f-lyric); letter-spacing: .38em; text-transform: uppercase; color: var(--ink-soft); }
+.lyrics-head p { margin: 0; font: 400 .8rem/1.6 var(--f-mono); color: var(--ink-soft); max-width: 62ch; }
+.song { display: grid; gap: clamp(2.4rem, 5vw, 3.6rem); max-width: 60rem; }
+.part { display: grid; gap: .35rem; }
+.part > h3 { margin: 0 0 .5rem; font: 500 .68rem/1.4 var(--f-mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft); display: flex; gap: .8rem; align-items: baseline; flex-wrap: wrap; }
+.part > h3 .src { letter-spacing: .04em; text-transform: none; font-style: italic; font-family: var(--f-lyric); font-size: .95rem; }
+.part ol { list-style: none; margin: 0; padding: 0; display: grid; gap: .1rem; }
+.ln {
+  all: unset; box-sizing: border-box; display: grid; grid-template-columns: 3.4rem minmax(0, 1fr); gap: .75rem; align-items: baseline;
+  width: 100%; cursor: pointer; padding: .2rem 0; border-radius: 2px; color: var(--ink);
+  transition: opacity .35s ease, color .35s ease;
+}
+.ln .t { font: 400 .7rem/1 var(--f-mono); color: var(--ink-soft); letter-spacing: .04em; font-variant-numeric: tabular-nums; position: relative; }
+.ln .w { min-width: 0; overflow-wrap: anywhere; }
+.ln:hover .t, .ln:focus-visible .t { color: var(--cinnabar); }
+.ln:focus-visible { outline: 2px solid var(--cinnabar); outline-offset: 4px; }
+.song.static .ln { cursor: default; }
+.song.playing .ln { opacity: .4; }
+.song.playing .ln.now { opacity: 1; }
+.ln.now .t { color: var(--cinnabar); }
+.ln.now .t::before { content: ""; position: absolute; left: -12px; top: .1em; width: 6px; height: 6px; border-radius: 50%; background: var(--cinnabar); }
+@media (max-width: 420px) { .ln { grid-template-columns: 2.7rem minmax(0, 1fr); gap: .5rem; } .ln.now .t::before { left: -9px; } }
+
+/* the film's type, by role: her English in italic serif, Li Bai's lines brushed, the gloss small beneath */
+.en-l { font: italic 400 clamp(1.5rem, 4.4vw, 2.3rem)/1.2 var(--f-lyric); }
+.zh-l { font: 400 clamp(2.1rem, 7vw, 3.6rem)/1.15 var(--f-zh); letter-spacing: .06em; }
+.zh-l .gl { display: block; font: italic 400 clamp(1.05rem, 2.6vw, 1.3rem)/1.35 var(--f-lyric); letter-spacing: 0; color: var(--ink-soft); margin-top: .25rem; }
+.zh-l.whisper { color: var(--ink-soft); }
+.zh-l.whisper .last { color: var(--ink); }
+.nw { white-space: nowrap; }
+.part .note { margin: .6rem 0 0 calc(3.4rem + .75rem); font: 400 .78rem/1.6 var(--f-mono); color: var(--ink-soft); max-width: 58ch; }
+@media (max-width: 420px) { .part .note { margin-left: calc(2.7rem + .5rem); } }
+
+/* stills set into the lyric sheet */
+.still { margin: .4rem 0 0; display: grid; gap: .5rem; }
+.still img { width: 100%; box-shadow: 0 0 0 1px var(--rule); }
+.still figcaption { font: 400 .7rem/1.5 var(--f-mono); color: var(--ink-soft); letter-spacing: .04em; }
+.still.inset { max-width: 40rem; margin-left: calc(3.4rem + .75rem); margin-top: 1.2rem; }
+@media (max-width: 420px) { .still.inset { margin-left: 0; } }
+
+/* ── paper to indigo ───────────────────────────────────── */
+.to-indigo { height: clamp(7rem, 18vw, 12rem); background: linear-gradient(to bottom, var(--paper) 0%, var(--indigo) 100%); }
+
+/* ── the base (gold line on indigo) ────────────────────── */
+.indigo { background: var(--indigo); color: var(--moon); position: relative; }
+/* the faint ruled grid of the film's 界画 drawings */
+.indigo::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background-image: linear-gradient(var(--indigo-rule) 1px, transparent 1px), linear-gradient(90deg, var(--indigo-rule) 1px, transparent 1px);
+  background-size: 120px 120px; background-position: -1px -1px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12rem, #000 calc(100% - 12rem), transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 12rem, #000 calc(100% - 12rem), transparent);
+}
+.base { position: relative; max-width: 1280px; margin-inline: auto; padding-block: 1rem clamp(3rem, 8vw, 5rem); }
+.base a { color: var(--gold-hi); }
+.base a:hover { color: #fff3d6; }
+.base-head { display: grid; gap: 1.6rem; margin-bottom: clamp(2.5rem, 6vw, 4rem); }
+@media (min-width: 900px) { .base-head { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); align-items: start; } }
+.base-head .eyebrow { font: 500 .72rem/1.5 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin: 0 0 1rem; }
+.base-head h2 { margin: 0; font: 500 clamp(2.1rem, 6.4vw, 3.6rem)/1.05 var(--f-lyric); color: var(--moon); text-wrap: balance; }
+.base-head h2 em { color: var(--gold-hi); }
+.base-head .answer { display: grid; gap: .9rem; font-size: 1.05rem; max-width: 62ch; color: #d9d4c6; }
+.base-head .answer p { margin: 0; }
+.base-head .answer strong { color: var(--moon); font-weight: 600; }
+.plan { margin: 0 0 clamp(2.5rem, 6vw, 4rem); display: grid; gap: .6rem; }
+.plan img { width: 100%; box-shadow: 0 0 0 1px var(--indigo-rule); }
+.plan figcaption, .tech figcaption { font: 400 .72rem/1.5 var(--f-mono); color: var(--gold-soft); letter-spacing: .04em; }
+
+.legend { list-style: none; margin: 0 0 clamp(2rem, 5vw, 3rem); padding: 1rem 1.1rem; display: flex; flex-wrap: wrap; gap: .7rem 1.6rem; border: 1px solid var(--indigo-rule); border-radius: 2px; max-width: 62rem; }
+.legend li { display: flex; gap: .55rem; align-items: baseline; font-size: .9rem; color: #cfcab9; }
+.chip { display: inline-block; font: 500 .64rem/1.5 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; padding: .05em .5em; border: 1px solid currentColor; border-radius: 2px; white-space: nowrap; vertical-align: .12em; }
+.chip.moon { color: var(--c-moon); }
+.chip.earth { color: var(--c-earth); }
+.chip.planned { color: var(--c-plan); }
+.chip.phys { color: var(--c-phys); }
+.chip.made { color: var(--c-made); }
+
+.techs { display: grid; gap: clamp(2.5rem, 6vw, 4rem); }
+.tech { display: grid; gap: 1rem 2rem; padding-top: 1.6rem; border-top: 1px solid var(--indigo-rule); }
+@media (min-width: 900px) { .tech { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } .tech.noimg { grid-template-columns: minmax(0, 7fr); } }
+.tech figure { margin: 0; display: grid; gap: .5rem; align-content: start; }
+.tech figure img { width: 100%; box-shadow: 0 0 0 1px var(--indigo-rule); }
+@media (min-width: 900px) { .tech figure { order: 2; } }
+.tech .txt { min-width: 0; }
+.tech .txt > * + * { margin-top: .7rem; }
+.tech h3 { margin: 0; font: 500 clamp(1.55rem, 4vw, 2.1rem)/1.12 var(--f-lyric); color: var(--moon); text-wrap: balance; }
+.tech h3 .n { font: 500 .8rem var(--f-mono); color: var(--gold); vertical-align: .5em; margin-right: .5rem; letter-spacing: 0; }
+.tech .meta { display: flex; flex-wrap: wrap; gap: .4rem .8rem; align-items: baseline; }
+.tech .data { font: 400 .74rem/1.6 var(--f-mono); color: var(--gold); letter-spacing: .06em; background: rgba(220, 184, 114, .07); border-left: 2px solid var(--gold-soft); padding: .45rem .7rem; overflow-wrap: anywhere; max-width: none; }
+.tech p { margin-bottom: 0; max-width: 64ch; color: #d9d4c6; }
+.tech p b { color: var(--moon); font-weight: 600; }
+.tech p.film-side { color: var(--moon); }
+.ts { font: 500 .74rem var(--f-mono); color: var(--moon-dim); font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+button.ts { all: unset; cursor: pointer; font: 500 .74rem var(--f-mono); color: var(--gold-hi); font-variant-numeric: tabular-nums; letter-spacing: .04em; border-bottom: 1px dotted currentColor; }
+button.ts:hover { color: #fff3d6; }
+button.ts:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* liberties */
+.liberties { margin-top: clamp(3.5rem, 8vw, 5.5rem); padding-top: 1.6rem; border-top: 1px solid var(--gold-soft); max-width: 62rem; }
+.liberties h3 { margin: 0 0 .4rem; font: 500 clamp(1.8rem, 5vw, 2.6rem)/1.1 var(--f-lyric); color: var(--moon); }
+.liberties > p { margin: 0 0 1.2rem; color: #d9d4c6; max-width: 62ch; }
+.liberties ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+.liberties li { padding-left: 1.2rem; position: relative; color: #d9d4c6; max-width: 66ch; }
+.liberties li::before { content: ""; position: absolute; left: 0; top: .75em; width: .6rem; height: 1px; background: var(--gold); }
+.liberties li b { color: var(--moon); font-weight: 600; }
+.more { margin-top: 2.2rem; font: 400 .8rem/1.7 var(--f-mono); color: var(--gold-soft); max-width: 66ch; }
+
+/* ── indigo to night: the close ────────────────────────── */
+.to-night { height: clamp(5rem, 12vw, 8rem); background: linear-gradient(to bottom, var(--indigo), var(--night)); }
+.close { max-width: 1280px; margin-inline: auto; padding-block: 0 1rem; }
+.close figure { margin: 0; display: grid; gap: .6rem; }
+.close img { width: 100%; box-shadow: 0 0 0 1px var(--night-rule); }
+.close figcaption { font: 400 .72rem/1.5 var(--f-mono); color: var(--moon-dim); letter-spacing: .04em; }
+footer.credits { max-width: 46rem; margin-inline: auto; padding-block: 3rem 4rem; display: grid; gap: 1.4rem; color: var(--moon); }
+.dedication { margin: 0; display: grid; gap: .5rem; }
+.dedication .en { font: italic 400 clamp(1.4rem, 4vw, 1.9rem)/1.3 var(--f-lyric); margin: 0; }
+.dedication .zh { font: 400 clamp(1.05rem, 3vw, 1.3rem)/1.7 var(--f-zh-text); color: var(--moon-dim); margin: 0; }
+.credits ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; font: 400 .8rem/1.65 var(--f-mono); color: var(--moon-dim); }
+.credits ul b { color: var(--moon); font-weight: 500; }
+.credits .made { font: 400 .8rem/1.7 var(--f-mono); color: var(--moon-dim); margin: 0; max-width: 64ch; }
+.credits .made a, .credits ul a { color: var(--gold); }
+.credits .sig { display: flex; gap: .5rem 1rem; flex-wrap: wrap; align-items: baseline; margin: 0; }
+.credits .sig .zh { font: 400 1.6rem/1 var(--f-zh); color: var(--moon); }
+.credits .sig .en { font: 500 .9rem/1 var(--f-lyric); letter-spacing: .38em; text-transform: uppercase; color: var(--moon-dim); }
+
+/* ── the now-playing strip (while the film plays out of view) ── */
+.np {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: rgba(14, 16, 32, .94); border-top: 1px solid var(--night-rule); color: var(--moon);
+  display: flex; align-items: center; gap: .9rem; backdrop-filter: blur(6px);
+}
+.np .np-t { font: 400 .7rem var(--f-mono); color: var(--gold); font-variant-numeric: tabular-nums; flex: none; }
+.np .np-line { flex: 1; min-width: 0; font: italic 400 1.15rem/1.2 var(--f-lyric); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.np button { all: unset; cursor: pointer; flex: none; font: 500 .66rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--moon); border: 1px solid var(--night-rule); padding: .55rem .7rem; border-radius: 2px; }
+.np button:hover { border-color: var(--moon-dim); }
+.np button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#lyrics">Skip to the lyrics</a>
+
+<!-- ═══════════ NIGHT ═══════════ -->
+<header class="bar gutter">
+  <a class="mark" href="#film"><span lang="zh-Hans">望明月</span>Moongazing</a>
+  <nav aria-label="Sections"><a href="#film">Film</a><a href="#lyrics">Lyrics</a><a href="#base">The Moonbase</a></nav>
+</header>
+
+<main>
+<section class="film gutter" id="film" aria-label="The film">
+  <div class="screen">
+    <img class="poster" src="img/poster.jpg" width="1280" height="720" fetchpriority="high"
+      alt="The film's title card: 望明月 brushed in black ink on warm paper, a red seal beside it, and MOONGAZING in spaced capitals beneath.">
+    <p class="soon" id="soon">Film coming soon <span lang="zh-Hans">望明月</span></p>
+    <div id="yt" hidden></div>
+  </div>
+  <div class="film-notes">
+    <span id="video-note">3:35 · 1920 × 1080 · 24 fps</span>
+    <a id="yt-link" href="#" target="_blank" rel="noopener noreferrer" hidden>Watch on YouTube &nearr;</a>
+  </div>
+</section>
+
+<section class="title gutter" aria-labelledby="t">
+  <div>
+    <p class="stamp"><span class="g">国际月球基地</span><span>International Moonbase</span><span>89.5° S</span><span>Est. 2035</span></p>
+    <h1 id="t"><span class="zh" lang="zh-Hans">望明月</span><span class="seal" aria-hidden="true" lang="zh-Hans">月</span><span class="en">Moongazing</span></h1>
+    <p class="by"><a href="https://x.com/qiqing/">Jade Wang</a></p>
+  </div>
+  <div class="lede">
+    <p>An astronaut, Claire Shen, whose family comes from Hangzhou, spends thirteen months at an eight-person international base at the Moon&rsquo;s south pole, while her family and her crewmates&rsquo; families look up at it from Earth.</p>
+    <p>The song is built on Li Bai&rsquo;s lines about the Moon. Every frame is drawn by JavaScript in the manner of Chinese painting: <em>ink on paper</em>, <em>colour on silk</em>, and <em>ruled gold line on indigo</em>.</p>
+    <p class="small">The astronaut, her family, the crew and Mission Control are fictional. The Moon base is not quite: <a href="#base">almost everything in it comes from real hardware, real studies and real plans&nbsp;&darr;</a></p>
+  </div>
+</section>
+
+<!-- ═══════════ PAPER: THE SONG ═══════════ -->
+<div class="to-paper" aria-hidden="true"></div>
+<div class="paper">
+<section class="lyrics gutter" id="lyrics" aria-labelledby="lyrics-h">
+  <div class="lyrics-head">
+    <h2 id="lyrics-h"><span class="zh" lang="zh-Hans" aria-hidden="true">词</span><span class="en">Lyrics</span></h2>
+    <p>The English is from Jade Wang&rsquo;s poem &ldquo;To Li Bai&rdquo; (<em>Oyez Review</em>, 2007). The Chinese is Li Bai&rsquo;s, with the English the film sets beneath it.</p>
+    <p id="sync-hint" hidden>Tap a line to hear it; the line being sung lights up while the film plays.</p>
+  </div>
+
+  <div class="song" id="song">
+    <div class="part">
+      <h3>Verse</h3>
+      <ol>
+        <li><button class="ln" data-t0="31.95" data-t1="35.42"><span class="t"></span><span class="w en-l">The willow in winter is slender,</span></button></li>
+        <li><button class="ln" data-t0="35.42" data-t1="38.99"><span class="t"></span><span class="w en-l">her switches plain and straight;</span></button></li>
+        <li><button class="ln" data-t0="38.99" data-t1="42.53"><span class="t"></span><span class="w en-l">the West Lake wind sings over water,</span></button></li>
+        <li><button class="ln" data-t0="42.53" data-t1="46.16"><span class="t"></span><span class="w en-l">like smoothing silk, and late</span></button></li>
+        <li><button class="ln" data-t0="46.16" data-t1="49.71"><span class="t"></span><span class="w en-l">in afternoon teahouses watching</span></button></li>
+        <li><button class="ln" data-t0="49.71" data-t1="53.25"><span class="t"></span><span class="w en-l">snow-brewed tea. That line&mdash;</span></button></li>
+      </ol>
+      <figure class="still inset">
+        <img src="img/westlake.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Painted frame of West Lake in winter: a mother and a small child in a rabbit-eared hat lean from a boat to touch the water, a pagoda and bare willows on the far shore, and the words the West Lake wind sings.">
+        <figcaption>0:40 · the West Lake wind sings over water</figcaption>
+      </figure>
+    </div>
+
+    <div class="part">
+      <h3>Li Bai <span class="src">&ldquo;Drinking Alone by Moonlight&rdquo; 月下独酌</span></h3>
+      <ol>
+        <li><button class="ln" data-t0="53.25" data-t1="57.15"><span class="t"></span><span class="w zh-l"><span lang="zh-Hans"><span class="nw">举杯邀明月，</span><span class="nw">对影成三人</span></span><span class="gl">I raise my cup to invite the bright Moon; with my shadow, we make three.</span></span></button></li>
+      </ol>
+      <figure class="still inset">
+        <img src="img/eclipse.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Silhouettes of two children on warm brown paper: a torch shines on a small Moon held by the girl, whose shadow falls on a globe held by the boy, under the brushed line 举杯邀明月，对影成三人.">
+        <figcaption>0:57 · The eclipse lesson: a torch for the Sun, a toy Moon, a globe. The light is computed, not painted.</figcaption>
+      </figure>
+    </div>
+
+    <div class="part">
+      <h3>Verse</h3>
+      <ol>
+        <li><button class="ln" data-t0="57.15" data-t1="64.87"><span class="t"></span><span class="w en-l">I think of you &mdash; homesick with waning</span></button></li>
+        <li><button class="ln" data-t0="64.87" data-t1="70.09"><span class="t"></span><span class="w en-l">moons and lonely wine.</span></button></li>
+      </ol>
+    </div>
+
+    <div class="part">
+      <h3>Refrain</h3>
+      <ol>
+        <li><button class="ln" data-t0="76.46" data-t1="84.2"><span class="t"></span><span class="w zh-l"><span lang="zh-Hans"><span class="nw">月缺酒寒，</span><span class="nw">我思念你</span></span><span class="gl">The moon wanes, the wine is cold &mdash; I miss you.</span></span></button></li>
+        <li><button class="ln" data-t0="85.26" data-t1="90.74"><span class="t"></span><span class="w en-l">I think of you, I think of you</span></button></li>
+        <li><button class="ln" data-t0="90.89" data-t1="93.46"><span class="t"></span><span class="w zh-l"><span lang="zh-Hans">举杯邀明月</span><span class="gl">I raise my cup to invite the bright Moon</span></span></button></li>
+        <li><button class="ln" data-t0="93.48" data-t1="98.27"><span class="t"></span><span class="w en-l">moons and lonely wine</span></button></li>
+      </ol>
+      <figure class="still inset">
+        <img src="img/rocket.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Painted frame at dusk: families on a seawall, a grandmother, a father holding a child in a rabbit-eared hat, watch a rocket climb on a column of fire, beside the brushed characters 酒寒 and the words the wine is cold.">
+        <figcaption>1:19 · 酒寒, the wine is cold. The families watch the launch.</figcaption>
+      </figure>
+    </div>
+
+    <div class="part">
+      <h3>Li Bai <span class="src">&ldquo;Quiet Night Thoughts&rdquo; 静夜思</span></h3>
+      <ol>
+        <li><button class="ln" data-t0="110.28" data-t1="113.86"><span class="t"></span><span class="w zh-l"><span lang="zh-Hans">举头望明月，</span><span class="gl">I raise my head and gaze at the bright Moon,</span></span></button></li>
+        <li><button class="ln" data-t0="113.86" data-t1="121.65"><span class="t"></span><span class="w zh-l"><span lang="zh-Hans">低头思故乡</span><span class="gl">I think of home.</span></span></button></li>
+      </ol>
+      <p class="note">Whispered, until the last character, 乡 (home), is sung.</p>
+      <figure class="still inset">
+        <img src="img/home.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="The character 乡 brushed in white on black, beside a small, nearly full Earth over a grey lunar horizon, with the word home beneath.">
+        <figcaption>1:58 · 乡, home: the Earth as the crew see it from the south pole</figcaption>
+      </figure>
+    </div>
+
+    <div class="part">
+      <h3>Closing lines, on screen <span class="src">Zhang Jiuling, &ldquo;Gazing at the Moon, Longing for One Far Away&rdquo; 望月怀远</span></h3>
+      <ol>
+        <li><button class="ln" data-t0="198.44" data-t1="204.19"><span class="t"></span><span class="w zh-l"><span lang="zh-Hans"><span class="nw">海上生明月，</span><span class="nw">天涯共此时</span></span><span class="gl">The bright moon rises over the sea; however far apart, we share this moment.</span></span></button></li>
+      </ol>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ═══════════ INDIGO: THE BASE ═══════════ -->
+<div class="to-indigo" aria-hidden="true"></div>
+<div class="indigo">
+<article class="base gutter" id="base" aria-labelledby="base-h">
+  <header class="base-head">
+    <div>
+      <p class="eyebrow">国际月球基地 · International Moonbase · 89.5° S</p>
+      <h2 id="base-h">Why does the International Moonbase look different from <em>moonbases in movies?</em></h2>
+    </div>
+    <div class="answer">
+      <p>Because it was designed from the engineering, not from the movies. Screen moonbases tend to sit on an open plain under a high Earth, domes glowing in the dark. This one stands on a ridge at the south pole, where the Sun never climbs more than a degree or two above the horizon, so the solar panels stand on <strong>masts</strong> and every shadow is a kilometre long. Its modules are buried under <strong>printed regolith</strong>. Its lamps throw hard pools of light with <strong>no glow</strong>, because there is no air. And the Earth, when it shows at all, is <strong>small, upside down and low</strong> on the horizon.</p>
+      <p>Here is the real technology behind each part of it, with where to look in the film. Each entry says how far the real thing has got.</p>
+    </div>
+  </header>
+
+  <figure class="plan">
+    <img src="img/plan.webp" width="1600" height="900" loading="lazy" decoding="async"
+      alt="Ink drawing of the station's plan on white paper: a central hub and four domed modules joined by tunnels, ringed by tall solar masts, with a radio tower at the top, a small Earth in a dark disc at left, and the caption 国际月球基地 INTERNATIONAL MOONBASE, 89.5° S, Shackleton–de Gerlache ridge.">
+    <figcaption><span class="ts" data-t="104">1:44</span> · The station&rsquo;s plan: a hub, four inflatable tunnels, four rigid modules, and solar masts all round</figcaption>
+  </figure>
+
+  <ul class="legend" aria-label="How far the real thing has got">
+    <li><span class="chip moon">On the Moon</span><span>Flown there, or done there</span></li>
+    <li><span class="chip earth">Tested on Earth</span><span>Built and tried, not yet on the Moon</span></li>
+    <li><span class="chip planned">Planned</span><span>A design, a contract or a proposal</span></li>
+    <li><span class="chip phys">Physics</span><span>Computed, not invented</span></li>
+  </ul>
+
+  <div class="techs">
+
+    <section class="tech">
+      <figure>
+        <img src="img/lightson.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Gold line drawing on indigo, seen from above at an angle: the hub and four domed modules, a long tunnel out to a round landing pad, solar masts standing around them, DAY 092 in the corner.">
+        <figcaption><span class="ts" data-t="130.6">2:10</span> · Day 92, lights on</figcaption>
+      </figure>
+      <div class="txt">
+        <h3><span class="n">01</span>A ridge in near-constant sunlight</h3>
+        <div class="meta"><span class="chip planned">Planned</span><span class="ts" data-t="120.96">2:01</span></div>
+        <p class="data">SITE SURVEY · RIDGE 89.5° S · SUN 0–1.5°</p>
+        <p class="film-side">The base stands on the ridge joining the craters Shackleton and de Gerlache. The Sun circles the horizon once every 29.5 days without ever climbing, so in the film its bearing turns 12.19° a day and its height stays near 1.2°: a 20&nbsp;m mast throws a 950&nbsp;m shadow.</p>
+        <p>This ridge is some of the best-lit ground near the pole. Over a 19-year simulation, <a href="https://elib.dlr.de/94242">Gl&auml;ser et al.</a> found spots on it in sunlight 92.3% of the time at 2&nbsp;m above the ground, and 95.66% at 10&nbsp;m. Seen from Shackleton&rsquo;s rim, the Sun &ldquo;glides around the horizon&rdquo; (<a href="https://svs.gsfc.nasa.gov/4944">NASA SVS</a>), while nearby permanently shadowed crater floors stay at only tens of kelvin.</p>
+        <p>Both real programmes target the south polar region: <a href="https://www.nasa.gov/moonbase-phases/">NASA&rsquo;s Moon Base plan</a> builds toward a permanent outpost from 2032, and the China-led International Lunar Research Station plans a basic model there by 2035 (<a href="https://english.www.gov.cn/news/202504/24/content_WS680976d7c6d0868f4e8f2045.html">Xinhua</a>).</p>
+      </div>
+    </section>
+
+    <section class="tech noimg">
+      <div class="txt">
+        <h3><span class="n">02</span>Solar panels on masts that turn with the Sun</h3>
+        <div class="meta"><span class="chip earth">Tested on Earth</span><span class="ts" data-t="121.84">2:02</span></div>
+        <p class="data">SOLAR MASTS · 20 M · TRACKING THE SUN AROUND THE HORIZON</p>
+        <p class="film-side">The panels stand upright, from 10.5&nbsp;m to 19.5&nbsp;m above the ground, and turn once a month to follow a Sun that never rises.</p>
+        <p>NASA&rsquo;s <a href="https://www.nasa.gov/technology/nasa-industry-to-mature-vertical-solar-array-technologies-for-lunar-surface/">Vertical Solar Array Technology</a> programme puts arrays on masts to clear the shadows of polar terrain. Its reference design asks for at least 10&nbsp;kW with the bottom of the array at least 10&nbsp;m up (<a href="https://ntrs.nasa.gov/api/citations/20240004914/downloads/VSAT%20Mechanisms%20Abstract%2020240418.pdf">NASA Langley</a>). Prototypes from Honeybee and Astrobotic went through vacuum tests at Johnson Space Center in 2024 (<a href="https://www.nasa.gov/centers-and-facilities/johnson/from-houston-to-the-moon-johnsons-thermal-vacuum-chamber-tests-lunar-solar-technology">NASA</a>).</p>
+      </div>
+    </section>
+
+    <section class="tech noimg">
+      <div class="txt">
+        <h3><span class="n">03</span>Modules buried under printed regolith</h3>
+        <div class="meta"><span class="chip earth">Tested on Earth</span><span class="chip planned">Planned</span><span class="ts" data-t="122.72">2:03</span></div>
+        <p class="data">PRESSURE VESSELS LANDED · 4 MODULES &nbsp;→&nbsp; REGOLITH PRINTER · SHIELD SHELL 2.5 M · ONE 0.6 M COURSE A DAY</p>
+        <p class="film-side">The pressure vessels land first; then a gantry prints a 2.5&nbsp;m shell of Moon soil over each one, a course a day, against radiation and micrometeoroids.</p>
+        <p>That is the order of a 2013 study by ESA and Foster + Partners: a dome printed from regolith over a pressurised inflatable, with cellular walls. The team printed a 1.5&nbsp;tonne demonstration block on Earth from simulated regolith with added binders (<a href="https://www.esa.int/Enabling_Support/Space_Engineering_Technology/Building_a_lunar_base_with_3D_printing">ESA</a>). NASA&rsquo;s $57.2&nbsp;million contract with ICON, running to 2028, is to develop a system that builds &ldquo;landing pads, habitats, and roads&rdquo; from local material (<a href="https://www.nasa.gov/technology/manufacturing-materials-3-d-printing/nasa-icon-advance-lunar-construction-technology-for-moon-missions/">NASA</a>).</p>
+      </div>
+    </section>
+
+    <section class="tech">
+      <figure>
+        <img src="img/cable.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Gold line drawing on indigo: a long cable runs from the station's domes out to the reactor's fan of radiator panels, past two solar masts, DAY 017 in the corner.">
+        <figcaption><span class="ts" data-t="128.5">2:08</span> · Power on the grid, 1&nbsp;km of cable</figcaption>
+      </figure>
+      <div class="txt">
+        <h3><span class="n">04</span>A small nuclear reactor, a kilometre out</h3>
+        <div class="meta"><span class="chip planned">Planned</span><span class="ts" data-t="127.1">2:07</span></div>
+        <p class="data">FISSION SURFACE POWER · 100 kWe · PRE-CRITICAL &nbsp;·&nbsp; ADAEZE OKAFOR · 1.0 KM OUT · RADIATOR, 12 PANELS</p>
+        <p class="film-side">The sunlight runs out in polar winter and in crater shadow. A reactor does not. An engineer opens its radiator before it has ever been switched on, which is why she can stand beside it.</p>
+        <p>In 2025 NASA asked industry for a lunar reactor giving &ldquo;at least 100 kilowatts of electrical power&rdquo; through a closed Brayton cycle, on the Moon by early fiscal 2030 (<a href="https://www.nasa.gov/centers-and-facilities/glenn/nasa-seeks-industry-feedback-on-fission-surface-power/">NASA Glenn</a>).</p>
+      </div>
+    </section>
+
+    <section class="tech noimg">
+      <div class="txt">
+        <h3><span class="n">05</span>A landing pad melted into glass, and a lander parked 2&nbsp;km away</h3>
+        <div class="meta"><span class="chip earth">Tested on Earth</span><span class="chip moon">On the Moon</span><span class="ts" data-t="125.35">2:06</span></div>
+        <p class="data">CREW LANDER DOWN · BARE REGOLITH, 2.0 KM EAST &nbsp;·&nbsp; LANDING PAD · ⌀ 50 M · LASER-SINTERED REGOLITH</p>
+        <p class="film-side">A rocket landing on bare ground blasts dust and gravel outward like shot. So the first crew land 2&nbsp;km out, and a rover then circles the pad site once a day, fusing one more dark, glassy pass.</p>
+        <p>ESA&rsquo;s <a href="https://www.esa.int/ESA_Multimedia/Videos/2023/10/One_small_step_on_the_way_to_lunar_roads">PAVER</a> project melted simulated regolith into paving with a 12&nbsp;kW laser on Earth; its lunar concept would use concentrated sunlight. Apollo 12&rsquo;s landing beside the Surveyor III probe showed what ejecta does to nearby hardware (<a href="https://ntrs.nasa.gov/citations/20120000029">Metzger et al.</a>), and in March 2025 NASA&rsquo;s SCALPSS cameras on Blue Ghost filmed a plume striking the surface (<a href="https://www.nasa.gov/general/nasa-cameras-on-blue-ghost-capture-first-of-its-kind-moon-landing-footage/">NASA</a>). The 2&nbsp;km is the film&rsquo;s choice, not a validated safe distance.</p>
+      </div>
+    </section>
+
+    <section class="tech">
+      <figure>
+        <img src="img/oxygen.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Gloved hands turn a brass valve wheel beside a pressure gauge and a row of gas cylinders, in front of a large insulated furnace, drawn in gold line and paint on indigo.">
+        <figcaption><span class="ts" data-t="133.25">2:13</span> · Claire at the oxygen plant</figcaption>
+      </figure>
+      <div class="txt">
+        <h3><span class="n">06</span>Breathing air made from rock</h3>
+        <div class="meta"><span class="chip earth">Tested on Earth</span><span class="ts" data-t="133.25">2:13</span></div>
+        <p class="data">CLAIRE SHEN · ISRU · MOLTEN REGOLITH ELECTROLYSIS &nbsp;·&nbsp; 1,600 °C · 3.6 kA · O₂ 1.0 kg/h</p>
+        <p class="film-side">Claire&rsquo;s job is the plant that melts Moon soil and passes a current through it: oxygen comes off, and an iron&ndash;silicon alloy collects as metal. By the production&rsquo;s own arithmetic, most of that oxygen is meant as rocket oxidizer for the ride home, not air to breathe.</p>
+        <p>Laboratory cells run &ldquo;near 1600&nbsp;C&rdquo; (<a href="https://ntrs.nasa.gov/citations/20110008524">Sibille, Sadoway et al.</a>). An MIT model sizes a 56.5&nbsp;kW plant making 10,000&nbsp;kg of oxygen a year, 1.14&nbsp;kg an hour (<a href="https://dspace.mit.edu/entities/publication/be50a699-718a-447f-b6ed-c15ec7f417ba">Schreiner, 2015</a>). Each O₂ molecule takes four electrons, so 1.0&nbsp;kg/h needs 3,350&nbsp;A; the film&rsquo;s 3.6&nbsp;kA means 93% current efficiency.</p>
+        <p>The real thing is smaller so far. In late 2024 NASA Kennedy and Lunar Resources ran the LR-1 reactor in a vacuum chamber on 25&nbsp;kg of simulant, electrolysing for nine hours at an average 0.07&nbsp;kg of oxygen an hour (<a href="https://ntrs.nasa.gov/citations/20260006167">Toro Medina et al.</a>). The film imagines about fourteen times that rate, all year.</p>
+      </div>
+    </section>
+
+    <section class="tech">
+      <figure>
+        <img src="img/drill.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Ink and wash on black: an astronaut kneels beside a tall drill on a braced tripod frame in a dark crater, lit by a work lamp, a small wheeled rover with panel ears behind, sample canisters lined up in front.">
+        <figcaption><span class="ts" data-t="131.49">2:11</span> · Arjun at the drill in a shadowed crater</figcaption>
+      </figure>
+      <div class="txt">
+        <h3><span class="n">07</span>Drilling for ice in the dark</h3>
+        <div class="meta"><span class="chip moon">On the Moon</span><span class="ts" data-t="131.49">2:11</span></div>
+        <p class="data">ARJUN RAMAN · PSR · BITE 07 · 0.70 m · H₂O 3.1 wt%</p>
+        <p class="film-side">In a crater that never sees the Sun, the drill brings up its seventh 10&nbsp;cm &ldquo;bite&rdquo;. It stands on its own braced frame, because on the Moon the 70&nbsp;kg rover weighs only 113&nbsp;N.</p>
+        <p>It is drawn after TRIDENT, Honeybee Robotics&rsquo; 1&nbsp;m drill, which works in 10&nbsp;cm bites and lifts each to the surface as a cone of cuttings (<a href="https://icedrill.org/sites/default/files/Zacny_2025_TRIDENT%20Ice%20Mining%20Drill%20for%20Lunar%20Volatile%20Prospecting%20for%20PRIME-1%20and%20VIPER%20Missions.pdf">Zacny et al.</a>). TRIDENT reached the Moon on NASA&rsquo;s PRIME-1 in March 2025; the lander came to rest on its side, and the drill ran through its motions without reaching the ground (<a href="https://www.nasa.gov/missions/artemis/nasas-lunar-drill-technology-passes-tests-on-the-moon/">NASA</a>). Nobody has yet drilled ice out of a shadowed lunar crater.</p>
+        <p>LCROSS&rsquo;s 2009 impact into the crater Cabeus gave a local estimate of 5.6 &plusmn; 2.9% water by mass (<a href="https://experts.arizona.edu/en/publications/detection-of-water-in-the-lcross-ejecta-plume/">Colaprete et al.</a>). The film&rsquo;s 3.1% is an invented reading within that range.</p>
+      </div>
+    </section>
+
+    <section class="tech">
+      <figure>
+        <img src="img/plants.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="A botanist reaches through a glovebox port toward small rosettes growing in clear dishes of grey soil, drawn in gold line on indigo.">
+        <figcaption><span class="ts" data-t="135">2:15</span> · Lúcia&rsquo;s first rosette</figcaption>
+      </figure>
+      <div class="txt">
+        <h3><span class="n">08</span>A plant in Moon soil</h3>
+        <div class="meta"><span class="chip earth">Tested on Earth</span><span class="chip moon">On the Moon</span><span class="ts" data-t="135">2:15</span></div>
+        <p class="data">LÚCIA FERREIRA · ARABIDOPSIS IN LUNAR REGOLITH · FIRST ROSETTE</p>
+        <p>In 2022 University of Florida scientists grew <em>Arabidopsis</em> on Earth in regolith from Apollo 11, 12 and 17, about a gram to a well, with water and nutrients added. Nearly all the seeds sprouted; the plants grew smaller and slower than the controls (<a href="https://www.nature.com/articles/s42003-022-03334-8">Paul, Elardo and Ferl</a>). In January 2019 a cotton seed sprouted on the Moon itself, in a sealed experiment aboard Chang&rsquo;e-4 with soil brought from Earth (<a href="https://www.sciencedirect.com/science/article/pii/S0094576523005301">Xie et al.</a>). NASA&rsquo;s LEAF experiment, selected in 2024, is to grow plants on the lunar surface (<a href="https://www.nasa.gov/news-release/nasa-selects-first-lunar-instruments-for-artemis-astronaut-deployment/">NASA</a>).</p>
+        <p class="film-side">A plant in lunar soil, on the Moon, is the film&rsquo;s step beyond both. At 3:14 Lúcia gives her grandmother seeds that have been to the Moon and back, as Stuart Roosa carried hundreds of tree seeds around the Moon on Apollo 14 (<a href="https://nssdc.gsfc.nasa.gov/planetary/lunar/moon_tree.html">NASA</a>).</p>
+      </div>
+    </section>
+
+    <section class="tech">
+      <figure>
+        <img src="img/radio.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Ink on black: a small rover unrolls long gold ribbons of film antenna across the dark floor of a crater beneath its rim.">
+        <figcaption><span class="ts" data-t="136.76">2:16</span> · Kenji&rsquo;s radio array on the crater floor</figcaption>
+      </figure>
+      <div class="txt">
+        <h3><span class="n">09</span>A radio telescope in the quiet</h3>
+        <div class="meta"><span class="chip planned">Planned</span><span class="ts" data-t="136.76">2:16</span></div>
+        <p class="data">KENJI MORI · FILM-DIPOLE ARRAY · 4 × 100 M · 1–50 MHz &nbsp;·&nbsp; NO SUN · NO EARTH · THE QUIETEST SKY IN REACH</p>
+        <p class="film-side">A rover unrolls four 100&nbsp;m antennas of thin film on the floor of Shackleton, where the crater walls hide both the Sun and the Earth&rsquo;s radio noise.</p>
+        <p>Low-frequency radio astronomy wants the Moon for its silence. LuSEE-Night, built to ride Firefly&rsquo;s Blue Ghost Mission 2 to the far side, is to listen for the signal of the cosmic Dark Ages (<a href="https://www.bnl.gov/newsroom/news.php?a=222425">Brookhaven</a>). Shackleton itself has been proposed too: RadioLuna, an array on the crater floor (<a href="https://arxiv.org/abs/2103.16957">Eubanks and Blase</a>). The film&rsquo;s antenna layout and band are invented.</p>
+      </div>
+    </section>
+
+    <section class="tech">
+      <figure>
+        <img src="img/lope.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Ink and wash on white: the legs of a spacesuited figure in mid-stride across the grey regolith, a spray of dust grains flying from the rear boot, footprints behind.">
+        <figcaption><span class="ts" data-t="138.51">2:18</span> · Every grain flies its own arc</figcaption>
+      </figure>
+      <div class="txt">
+        <h3><span class="n">10</span>Dust with no air to hold it</h3>
+        <div class="meta"><span class="chip phys">Physics</span><span class="ts" data-t="138.51">2:18</span></div>
+        <p class="data">1.62 m/s² · NO AIR · NO CLOUD</p>
+        <p>A crew member lopes across the regolith. Each grain of dust leaving her boot is integrated under lunar gravity (<a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html">1.62&nbsp;m/s²</a>) with no drag: it flies a clean arc, lands and stops. No cloud hangs behind her.</p>
+        <p>The same rule lights the station. When the lamps come on one by one at <span class="ts" data-t="141.36">2:21</span>, they show only as hard-edged pools on the ground. With no air, nothing glows around a lamp.</p>
+      </div>
+    </section>
+
+    <section class="tech">
+      <figure>
+        <img src="img/lights.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Night on the Moon: low dark mounds of regolith over the station's modules, a glowing glass cupola with a ring of small lit portholes, tall solar masts standing in the dark, and hard pools of lamplight on the ground.">
+        <figcaption><span class="ts" data-t="141.36">2:21</span> · Station lights, one by one</figcaption>
+      </figure>
+      <div class="txt">
+        <h3><span class="n">11</span>The Moon rabbits</h3>
+        <div class="meta"><span class="chip moon">On the Moon</span></div>
+        <p>The base&rsquo;s small rovers are called Yutu 玉兔, after the rabbit in the Moon of the old story and China&rsquo;s two real rovers. Yutu-2 landed with Chang&rsquo;e-4 on the far side in January 2019 and became the longest-lived rover on the Moon (<a href="https://en.wikipedia.org/wiki/Yutu-2">Wikipedia</a>).</p>
+        <p class="film-side">The film&rsquo;s Yutu has wheel-legs and two solar panels for ears. It surveys the site (<span class="ts" data-t="120.96">2:01</span>), runs the reactor&rsquo;s cable (<span class="ts" data-t="127.1">2:07</span>), stands by at the drill (<span class="ts" data-t="131.49">2:11</span>) and unrolls the radio antennas (<span class="ts" data-t="136.76">2:16</span>).</p>
+      </div>
+    </section>
+
+    <section class="tech">
+      <figure>
+        <img src="img/earth.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Ink on black: an astronaut carrying a case walks along a grey ridge toward a lander, with a small Earth hanging low in the black sky and the brushed characters 低头思故 at left.">
+        <figcaption><span class="ts" data-t="113.86">1:53</span> · 低头思故乡: the Earth from the south pole on 10 September 2037</figcaption>
+      </figure>
+      <div class="txt">
+        <h3><span class="n">12</span>The Earth, as it really hangs in that sky</h3>
+        <div class="meta"><span class="chip phys">Physics</span><span class="ts" data-t="113.86">1:53</span><span class="ts" data-t="175">2:53</span></div>
+        <p class="film-side">No image model paints the Earth. The renderer draws it as a sphere from NASA&rsquo;s <a href="https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation">Blue Marble</a> day maps and <a href="https://www.earthdata.nasa.gov/data/projects/black-marble">Black Marble</a> night lights, with its phase, its tilt and the face it shows taken from <a href="https://ssd.jpl.nasa.gov/horizons/">JPL Horizons</a> for a real date and the base&rsquo;s real position.</p>
+        <p><b>It is small:</b> about two degrees across, nearly four Moons wide in our sky, and still only a thumb at arm&rsquo;s length. <b>It hangs upside down:</b> from the south pole the Earth appears &ldquo;upside-down and rotating backwards&rdquo; (<a href="https://svs.gsfc.nasa.gov/4944">NASA SVS</a>), and the film does not turn it to look familiar. <b>It stays low,</b> bobbing a few degrees above and below one stretch of horizon, which is why the comms tower&rsquo;s dish (<span class="ts" data-t="123.6">2:05</span>) points almost flat. <b>Its phase is the opposite of the Moon&rsquo;s:</b> at <span class="ts" data-t="158">2:38</span> a flight controller sends up his family&rsquo;s thin crescent Moon, and Claire answers with the Earth she sees that night, nearly full.</p>
+      </div>
+    </section>
+
+    <section class="tech">
+      <figure>
+        <img src="img/toast.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Eight crew members in silhouette under the ribbed glass cupola, raising cups toward a small Earth above the bright lunar horizon, their long shadows falling across the floor.">
+        <figcaption><span class="ts" data-t="175">2:55</span> · The toast, under the cupola: the Earth for 30 August 2038</figcaption>
+      </figure>
+      <div class="txt">
+        <h3><span class="n">13</span>Calling home, 1.28 seconds away</h3>
+        <div class="meta"><span class="chip phys">Physics</span><span class="ts" data-t="97">1:37</span><span class="ts" data-t="156">2:36</span></div>
+        <p class="data">HOUSTON · SIGNAL +1.3 S &nbsp;·&nbsp; RTT 3.1 s (light 2.6)</p>
+        <p>The Moon is 384,400&nbsp;km away on average, 1.28 seconds at the speed of light. During the descent Mission Control watches an altitude that is already 1.3&nbsp;s old. In the call home, the words cross the split screen as a gold line that takes 1.28&nbsp;s to arrive; the counter&rsquo;s extra half second is the production&rsquo;s allowance for relays and encoding.</p>
+        <p>Mission Control is staged after the night Curiosity landed on Mars in 2012, when the team scripted its first words because the microphones were live: &ldquo;Tango Delta nominal&rdquo;, then &ldquo;Touchdown confirmed&rdquo; (<a href="https://www.jpl.nasa.gov/news/first-words-of-safe-landing-on-mars-tango-delta-nominal/">JPL</a>). The film&rsquo;s calls are <span class="ts">TOUCHDOWN CONFIRMED</span> and, at splashdown, <span class="ts">CREW SAFE</span>.</p>
+      </div>
+    </section>
+
+    <section class="tech noimg">
+      <div class="txt">
+        <h3><span class="n">14</span>Getting there: a capsule, a lander, and a rendezvous from 1929</h3>
+        <div class="meta"><span class="chip earth">Tested on Earth</span><span class="ts" data-t="75.08">1:15</span><span class="ts" data-t="95.42">1:35</span></div>
+        <p class="data">MAX-Q · 3.2 G &nbsp;·&nbsp; TLI COMPLETE · 10.9 KM/S &nbsp;·&nbsp; CAPTURE &nbsp;·&nbsp; LUNAR ORBIT RENDEZVOUS · KONDRATYUK · POLTAVA · 1929</p>
+        <p>The rocket is a core with two boosters, and the capsule&rsquo;s escape tower sits directly on it with no fairing, as on China&rsquo;s Mengzhou, whose escape system was tested at maximum dynamic pressure in February 2026 (<a href="https://www.news.cn/tech/20260212/953c9239a6844c1990c5514942bc0919/c.html">Xinhua</a>). China&rsquo;s programme is building the same three pieces the film uses, a heavy rocket, a capsule and a separate lander, for a landing by 2030 (<a href="https://english.spacechina.com/n17212/c4470621/content.html">CASC</a>).</p>
+        <p>The capsule never lands on the Moon. It meets a lander waiting in lunar orbit, and when the two latch the screen credits Yuri Kondratyuk of Poltava, an early pioneer who in 1929 wrote down the idea of a ship that stays in orbit while a small lander goes down and comes back to it (<a href="https://www.lindahall.org/about/news/scientist-of-the-day/yuri-kondratyuk/">Linda Hall Library</a>).</p>
+        <p>The crew trained the way real crews do: NASA&rsquo;s 12&nbsp;m pool (<a href="https://www.nasa.gov/johnson/neutral-buoyancy-laboratory/">NASA</a>), 22-second parabolas of weightlessness (<a href="https://www.esa.int/ESA_Multimedia/Images/2025/11/Flying_for_the_Moon">ESA</a>), and the basalt fields of Iceland, where the Artemis II crew trained in 2024 (<a href="https://www.asc-csa.gc.ca/eng/news/articles/2024/2024-08-22-artemis-ii-crew-refines-lunar-geology-skills-in-iceland.asp">CSA</a>).</p>
+      </div>
+    </section>
+
+  </div>
+
+  <section class="liberties" aria-labelledby="lib-h">
+    <h3 id="lib-h">Liberties we took</h3>
+    <p>Where the film parts from the engineering, on purpose:</p>
+    <ul>
+      <li><b>One agency.</b> In the film every space programme on Earth builds the base together. Today the NASA-led and China-led lunar efforts are separate, and since 2011 US funding law has limited NASA&rsquo;s bilateral work with Chinese entities (<a href="https://science.nasa.gov/researchers/sara/faqs/prc-faq-roses/">NASA</a>). The joint programme is an imagined political arrangement.</li>
+      <li><b>A full Moon and a full Earth, cut together.</b> From 1:49 eight homes raise their heads to a full Moon, and at 1:53 the crew look at a full Earth. Those cannot be the same night: the Earth&rsquo;s phase is the opposite of the Moon&rsquo;s.</li>
+      <li><b>The Earth is drawn larger than life,</b> 1.2 to 1.3 times, so that it reads on a phone.</li>
+      <li><b>The glass cupola.</b> The modules are under 2.5&nbsp;m of printed regolith, but the hub&rsquo;s cupola stands in the open, a glass room where eight people raise a cup to the Earth. The film gives it shutters for solar storms; the production did not calculate the dose.</li>
+      <li><b>The pace.</b> The film assumes 640 days of robotic building before 97 days of crewed work. It is a fictional schedule.</li>
+      <li><b>Distances in the gold drawings.</b> The landing pad and reactor are drawn about 100&nbsp;m from the hub, on their true bearings, as a palace scroll would. In the station&rsquo;s layout they are 2&nbsp;km and 1&nbsp;km away.</li>
+      <li><b>The oxygen plant</b> makes about fourteen times the rate reported for the LR-1 test, without stopping. <b>The ice reading</b> is invented. <b>A plant</b> in lunar soil on the Moon has not been grown yet.</li>
+      <li><b>The capsule is a hybrid.</b> It has no fairing, like Mengzhou, but splashes down in the sea, as NASA&rsquo;s Orion does. Mengzhou is designed to land on the ground on airbags.</li>
+      <li><b>The launch is compressed,</b> and <span class="ts">384 400 KM</span> on every crew card is the mean distance; the real figure changes by the hour.</li>
+    </ul>
+    <p class="more">The full tour, with every source and the Earth-view query to repeat in JPL Horizons, is in the <a href="https://github.com/jadeqwang/moongazing-public-version#readme">README of the film&rsquo;s source</a>.</p>
+  </section>
+</article>
+</div>
+
+<!-- ═══════════ NIGHT: THE CLOSE ═══════════ -->
+<div class="to-night" aria-hidden="true"></div>
+<section class="close gutter" aria-label="The last frame">
+  <figure>
+    <img src="img/sea.webp" width="1600" height="900" loading="lazy" decoding="async"
+      alt="Painted on silk: a full moon over a dark sea seen from a wooden dock, its light a broken path on the water; on the table, mooncakes, a bowl of tea with the moon reflected in it, and small models of the Earth and the Moon. Brushed in two columns: 海上生明月，天涯共此时.">
+    <figcaption>3:18 · 海上生明月，天涯共此时</figcaption>
+  </figure>
+</section>
+
+<footer class="credits gutter">
+  <div class="dedication">
+    <p class="en">For everyone working far from the people they love. Look up &mdash; they&rsquo;re looking at the same moon.</p>
+    <p class="zh" lang="zh-Hans">献给每一位在远方工作、思念家人的人。抬头看看——他们望着的，是同一轮明月。</p>
+  </div>
+  <ul>
+    <li><b>Words</b> &mdash; Jade Wang, from her poem &ldquo;To Li Bai,&rdquo; <em>Oyez Review</em> (2007)</li>
+    <li><b>Chinese lines</b> &mdash; Li Bai (701&ndash;762), &ldquo;Drinking Alone by Moonlight&rdquo; 月下独酌 and &ldquo;Quiet Night Thoughts&rdquo; 静夜思</li>
+    <li><b>Closing lines</b> &mdash; Zhang Jiuling, &ldquo;Gazing at the Moon, Longing for One Far Away&rdquo; 望月怀远</li>
+    <li><b>Melody &amp; chords</b> &mdash; Jade Wang &amp; Charlie van Norman, from a 2011 jam session</li>
+    <li><b>Arrangement</b> &mdash; realized with Suno</li>
+    <li><b>Picture</b> &mdash; drawn in ink, silk and gold by JavaScript, over keyframes made with GPT Image and Nano Banana Pro, and motion from Seedance and MiniMax</li>
+    <li><b>Imagery</b> &mdash; NASA LRO / LROC · NASA Blue Marble and Black Marble · Voyager 1 &ldquo;Pale Blue Dot&rdquo; (1990), courtesy NASA/JPL</li>
+  </ul>
+  <p class="made">The astronaut, her family, the crew and Mission Control are fictional; any resemblance to real people is coincidental. The film&rsquo;s code is at <a href="https://github.com/jadeqwang/moongazing-public-version">github.com/jadeqwang/moongazing-public-version</a>. The tour of the base was researched by Jade and Claude Opus 5.5 and fact-checked by GPT-6.1-Sol.</p>
+  <p class="sig"><span class="zh" lang="zh-Hans">望明月</span><span class="en">Moongazing</span></p>
+</footer>
+</main>
+
+<div class="np" id="np" hidden role="region" aria-label="Now playing">
+  <span class="np-t" id="np-t">0:00</span>
+  <span class="np-line" id="np-line" aria-live="off"></span>
+  <button type="button" id="np-pause">Pause</button>
+  <button type="button" id="np-up">Film &uarr;</button>
+</div>
+
+<script>
+/* ── The one setting: the film's YouTube video id (the part after watch?v=). ───────────
+   Empty: the frame shows the title card and "Film coming soon", and the lyrics and timestamps stay plain text.
+   Set it (e.g. 'dQw4w9WgXcQ'): the film plays from YouTube (privacy-enhanced youtube-nocookie.com),
+   the lyric lines become play-from-here buttons that light up with the song, and the timestamps in the
+   Moonbase section play the film from that moment. */
+const YOUTUBE_ID = '';
+
+(function () {
+  'use strict';
+  const song = document.getElementById('song');
+  const buttons = [...song.querySelectorAll('.ln')];
+  const fmt = s => { s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+
+  if (!YOUTUBE_ID) {
+    // no film yet: the lyrics as plain text, no timestamps, nothing to tap
+    song.classList.add('static');
+    buttons.forEach(b => {
+      const span = document.createElement('span');
+      span.className = b.className;
+      span.append(...b.childNodes);
+      b.replaceWith(span);
+    });
+    return;
+  }
+
+  const note = document.getElementById('video-note');
+  document.getElementById('soon').hidden = true;
+  document.getElementById('sync-hint').hidden = false;
+  const ytLink = document.getElementById('yt-link');
+  ytLink.href = 'https://www.youtube.com/watch?v=' + encodeURIComponent(YOUTUBE_ID);
+  ytLink.hidden = false;
+  note.textContent = '3:35 · 1920 × 1080 · 24 fps · on YouTube';
+
+  /* ── lyric lines: times, seeking, highlight ── */
+  const lines = buttons.map(el => {
+    const w = el.querySelector('.w'), gl = w.querySelector('.gl');
+    const zh = gl ? w.textContent.replace(gl.textContent, '').trim() : '';
+    return { el, t0: +el.dataset.t0, t1: +el.dataset.t1,
+      text: (gl ? zh + ' · ' + gl.textContent : w.textContent).replace(/\s+/g, ' ').trim() };
+  });
+  lines.forEach(ln => {
+    ln.el.querySelector('.t').textContent = fmt(ln.t0);
+    ln.el.setAttribute('aria-label', ln.text + ', at ' + fmt(ln.t0) + '. Play from here.');
+    ln.el.title = 'Play from ' + fmt(ln.t0);
+  });
+
+  /* ── timestamps in the Moonbase section become play-from-here buttons ── */
+  document.querySelectorAll('.base .ts[data-t], .close .ts[data-t]').forEach(el => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'ts'; b.dataset.t = el.dataset.t;
+    b.textContent = el.textContent;
+    b.setAttribute('aria-label', 'Play the film from ' + el.textContent);
+    el.replaceWith(b);
+  });
+  document.addEventListener('click', e => {
+    const b = e.target.closest('button.ts'); if (!b) return;
+    document.getElementById('film').scrollIntoView({ block: 'start' });
+    seekPlay(+b.dataset.t);
+  });
+
+  let player = null, ready = false, pendingSeek = null, poll = 0, playing = false;
+  const PLAYING = 1;
+
+  let current = null;
+  function setNow(ln) {
+    if (ln === current) return;
+    if (current) current.el.classList.remove('now');
+    current = ln;
+    if (ln) ln.el.classList.add('now');
+    npLine.textContent = ln ? ln.text : '';
+  }
+  function tick() {
+    if (!ready) return;
+    const t = player.getCurrentTime() || 0;
+    setNow(lines.find(ln => t >= ln.t0 - 0.05 && t < ln.t1) || null);
+    npT.textContent = fmt(t);
+  }
+  function seekPlay(t) {
+    if (!ready) { pendingSeek = t; loadApi(); return; }
+    player.seekTo(Math.max(0, t), true);
+    player.playVideo();
+    tick();
+  }
+
+  song.addEventListener('click', e => {
+    const el = e.target.closest('.ln'); if (!el) return;
+    e.preventDefault();
+    const ln = lines.find(l => l.el === el);
+    if (ln) seekPlay(ln.t0 - 0.12);
+  });
+
+  /* ── the YouTube player (IFrame Player API) ── */
+  let apiRequested = false;
+  function loadApi() {
+    if (apiRequested) return; apiRequested = true;
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function () { if (prev) prev(); build(); };
+    const s = document.createElement('script');
+    s.src = 'https://www.youtube.com/iframe_api';
+    s.onerror = () => { note.textContent = 'The YouTube player did not load. Reload the page to try again.'; };
+    document.head.appendChild(s);
+  }
+  function build() {
+    const host = document.getElementById('yt'); host.hidden = false;
+    const vars = { playsinline: 1, rel: 0, modestbranding: 1 };
+    if (/^https?:/.test(location.protocol)) vars.origin = location.origin;
+    player = new window.YT.Player('yt', {
+      host: 'https://www.youtube-nocookie.com',
+      videoId: YOUTUBE_ID,
+      width: '100%', height: '100%',
+      playerVars: vars,
+      events: {
+        onReady: () => {
+          ready = true;
+          const f = player.getIframe && player.getIframe();
+          if (f) f.title = 'Moongazing, music video, 3 minutes 35 seconds. The lyrics are printed below.';
+          if (pendingSeek !== null) { const t = pendingSeek; pendingSeek = null; seekPlay(t); }
+        },
+        onStateChange: e => {
+          playing = e.data === PLAYING;
+          song.classList.toggle('playing', playing);
+          clearInterval(poll); poll = 0;
+          if (playing) poll = setInterval(tick, 250);
+          if (e.data === 0) setNow(null); else tick();
+          updateNp();
+        },
+        onError: () => { note.textContent = 'The film did not load from YouTube. Reload the page to try again.'; }
+      }
+    });
+    // the API swaps the div for an iframe; give it a title right away for screen readers
+    const f = document.querySelector('.screen iframe');
+    if (f && !f.title) f.title = 'Moongazing, music video';
+  }
+  loadApi();
+
+  /* ── now-playing strip, shown while the film plays out of view ── */
+  const np = document.getElementById('np'), npT = document.getElementById('np-t'), npLine = document.getElementById('np-line');
+  const npPause = document.getElementById('np-pause');
+  let filmVisible = true;
+  function updateNp() {
+    np.hidden = filmVisible || !playing;
+    npPause.textContent = playing ? 'Pause' : 'Play';
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => { filmVisible = es[0].intersectionRatio > 0.35; updateNp(); }, { threshold: [0, 0.35, 1] })
+      .observe(document.querySelector('.screen'));
+  }
+  npPause.addEventListener('click', () => { if (!ready) return; if (playing) player.pauseVideo(); else player.playVideo(); });
+  document.getElementById('np-up').addEventListener('click', () => {
+    document.getElementById('film').scrollIntoView({ block: 'start' });
+    const f = document.querySelector('.screen iframe'); if (f) f.focus({ preventScroll: true });
+  });
+})();
+</script>
+</body>
+</html>

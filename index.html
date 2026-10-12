@@ -40,7 +40,6 @@
   --gold: #dcb872;
   --gold-hi: #f0d498;
   --gold-soft: #ab9461;
-  --cin-night: #e0705a;
   /* chips, on indigo */
   --c-moon: #f0d498;
   --c-earth: #9cc3e8;
@@ -134,7 +133,8 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; 
 h1 { margin: 0; display: flex; align-items: flex-end; gap: clamp(.8rem, 3vw, 1.6rem); flex-wrap: wrap; }
 h1 .zh { font: 400 clamp(4.4rem, 18vw, 9.5rem)/.95 var(--f-zh); color: var(--moon); letter-spacing: .02em; }
 h1 .en { font: 500 clamp(1.1rem, 3.4vw, 1.7rem)/1 var(--f-lyric); letter-spacing: .42em; text-transform: uppercase; color: var(--moon-dim); padding-bottom: .55em; }
-.seal { display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; border: 2px solid var(--cin-night); border-radius: 3px; color: var(--cin-night); font: 400 1.25rem/1 var(--f-zh); margin-bottom: .9em; transform: rotate(-3deg); }
+/* The film's carved 望月 seal, with its original vermilion and stone texture. */
+.seal { flex: none; width: 2.6rem; height: 2.6rem; margin-bottom: 1.125rem; transform: rotate(1deg); }
 .by { font: italic 400 clamp(1.5rem, 4.2vw, 2.2rem)/1.1 var(--f-lyric); margin: 1.1rem 0 0; color: var(--moon); }
 .lede { display: grid; gap: .9rem; font-family: var(--f-lyric); font-size: clamp(1.25rem, 2.6vw, 1.5rem); line-height: 1.4; color: var(--moon); }
 .lede p { margin: 0; max-width: 40ch; }
@@ -319,12 +319,12 @@ footer.credits { max-width: 46rem; margin-inline: auto; padding-block: 3rem 4rem
 <section class="title gutter" aria-labelledby="t">
   <div>
     <p class="stamp"><span class="g">国际月球基地</span><span>International Moonbase</span><span>89.5° S</span><span>Est. 2035</span></p>
-    <h1 id="t"><span class="zh" lang="zh-Hans">望明月</span><span class="seal" aria-hidden="true" lang="zh-Hans">月</span><span class="en">Moongazing</span></h1>
+    <h1 id="t"><span class="zh" lang="zh-Hans">望明月</span><img class="seal" src="img/seal-wangyue.svg" width="512" height="512" alt="" aria-hidden="true"><span class="en">Moongazing</span></h1>
     <p class="by"><a href="https://x.com/qiqing/">Jade Wang</a></p>
   </div>
   <div class="lede">
     <p>An astronaut, Claire Shen, whose family comes from Hangzhou, spends thirteen months at an eight-person international base at the Moon&rsquo;s south pole, while her family and her crewmates&rsquo; families look up at it from Earth.</p>
-    <p>The song is built on Li Bai&rsquo;s lines about the Moon. Every frame is drawn by JavaScript in the manner of Chinese painting: <em>ink on paper</em>, <em>colour on silk</em>, and <em>ruled gold line on indigo</em>.</p>
+    <p>The song is built on Li Bai&rsquo;s lines about the Moon. Every frame is drawn by JavaScript in the manner of traditional Chinese painting and shadow puppetry: <em>ink on paper</em>, <em>colour on silk</em>, <em>ruled gold line on indigo</em>, and <em>paper shadow puppets</em> in the Copernican lesson.</p>
     <p class="small">The astronaut, her family, the crew and Mission Control are fictional. The Moon base is not quite: <a href="#base">almost everything in it comes from real hardware, real studies and real plans&nbsp;&darr;</a></p>
   </div>
 </section>

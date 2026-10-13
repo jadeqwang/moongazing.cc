@@ -8,7 +8,7 @@ New frame selections were extracted from `review/moongazing_public_v10_1080p.mp4
 | --- | --- | --- |
 | 01 · South-polar ridge | `survey.webp` | Final film at 122.55 s: rovers surveying the site and marking the module footprints. |
 | 02 · Solar masts | `solar-masts.webp` | Final film at 123.25 s: upright solar arrays on tall masts. |
-| 03 · Regolith-covered modules | `lights.webp` | Existing film still at the station-lighting scene, starting at 141.36 s. Moved here from 11 to show the finished regolith mounds. |
+| 03 · Regolith-covered modules | `station-lights.webp` | Final film at 145.40 s, near the end of the station-lighting shot: all 21 station lights are on, including the cupola, tunnel portholes, hatch lamp and ground lamps. The on-screen counter reads `LIGHTS 21 / 21`. |
 | 04 · Nuclear reactor | `reactor.webp` | Final film at 127.65 s: the reactor, shielding berm, radiator panels and engineer. |
 | 05 · Landing pad | `landing-pad.webp` | Final film at 130.20 s: the rover sintering concentric passes on the pad. |
 | 06 · Oxygen plant | `oxygen.webp` | Existing film still: Claire operating the oxygen plant. |
@@ -21,4 +21,4 @@ New frame selections were extracted from `review/moongazing_public_v10_1080p.mp4
 | 13 · Calling home | `call-home.webp` | Final film at 157.40 s: the split-screen Earth–Moon call and signal crossing. |
 | 14 · Capsule and lander | `rendezvous.webp` | Final film at 96.291667 s: Andriy celebrates capture with a raised fist, the capsule docked to the lander on the screen and a controller raising both arms below. The caption links to the start of the rendezvous shot at 95.42 s so the full gesture plays. |
 
-The existing `lightson.webp`, `cable.webp` and `toast.webp` assets are retained but no longer used by the page.
+The existing `lightson.webp`, `lights.webp`, `cable.webp` and `toast.webp` assets are retained but no longer used by the page.

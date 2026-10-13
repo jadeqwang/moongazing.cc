@@ -23,12 +23,11 @@ New frame selections were extracted from `review/moongazing_public_v10_1080p.mp4
 
 ## Liberties we took
 
-These supporting stills accompany the liberties list in a separate column, with links to their moments in the film.
+These two supporting stills accompany the liberties list in a separate column, with links to their moments in the film.
 
 | Point | Site asset | Source and subject |
 | --- | --- | --- |
 | One agency | `joint-programme.webp` | Final film at 20.25 s: the rocket and the complete opening premise, “Every space program on Earth is building the International Moonbase,” in English and Chinese. |
 | The glass cupola | `cupola-toast.webp` | Final film at 174.75 s: all eight crew members raising cups toward the Earth under the cupola's glass ribs. |
-| The capsule is a hybrid | `splashdown.webp` | Final film at 189.70 s: the capsule descending under three parachutes over the sea on Mission Control's screen, two controllers watching and celebrating, and Leah sharing the moment on her phone. |
 
-The existing `lightson.webp`, `lights.webp`, `cable.webp` and `toast.webp` assets are retained but no longer used by the page.
+The existing `lightson.webp`, `lights.webp`, `cable.webp`, `toast.webp` and `splashdown.webp` assets are retained but no longer used by the page.

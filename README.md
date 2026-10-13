@@ -16,7 +16,7 @@ const YOUTUBE_ID = '_j_IVgA-pf8';
 
 While it is empty, the frame shows the title card with "Film coming soon", and the lyrics and timestamps are plain text. Once it is set, the page loads the YouTube player (privacy-enhanced, youtube-nocookie.com); tapping a lyric line plays the film from that line, with the sung line lighting up as it plays, and the timestamps in the Moonbase section play the film from that moment.
 
-No video files are kept in this repo. The stills in `img/` are frames of the film.
+No video files are kept in this repo. The stills in `img/` are frames of the film or details of its original artwork. The Moonbase section's image selections and sources are listed in [img/SOURCES.md](img/SOURCES.md).
 
 ## Deploy
 

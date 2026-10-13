@@ -231,7 +231,7 @@ h1 .en { font: 500 clamp(1.1rem, 3.4vw, 1.7rem)/1 var(--f-lyric); letter-spacing
 
 .techs { display: grid; gap: clamp(2.5rem, 6vw, 4rem); }
 .tech { display: grid; gap: 1rem 2rem; padding-top: 1.6rem; border-top: 1px solid var(--indigo-rule); }
-@media (min-width: 900px) { .tech { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } .tech.noimg { grid-template-columns: minmax(0, 7fr); } }
+@media (min-width: 900px) { .tech { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } }
 .tech figure { margin: 0; display: grid; gap: .5rem; align-content: start; }
 .tech figure img { width: 100%; box-shadow: 0 0 0 1px var(--indigo-rule); }
 @media (min-width: 900px) { .tech figure { order: 2; } }
@@ -448,13 +448,13 @@ footer.credits { max-width: 46rem; margin-inline: auto; padding-block: 3rem 4rem
 
     <section class="tech">
       <figure>
-        <img src="img/lightson.webp" width="1600" height="900" loading="lazy" decoding="async"
-          alt="Gold line drawing on indigo, seen from above at an angle: the hub and four domed modules, a long tunnel out to a round landing pad, solar masts standing around them, DAY 092 in the corner.">
-        <figcaption><span class="ts" data-t="130.6">2:10</span> · Day 92, lights on</figcaption>
+        <img src="img/survey.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Gold line drawing on indigo: small survey rovers mark the hub, module footprints and service roads on bare regolith, under the caption SITE SURVEY · RIDGE 89.5° S · SUN 0–1.5°.">
+        <figcaption><span class="ts" data-t="122.55">2:02</span> · Surveying the south-polar site before construction</figcaption>
       </figure>
       <div class="txt">
         <h3><span class="n">01</span>A ridge in near-constant sunlight</h3>
-        <div class="meta"><span class="chip planned">Planned</span><span class="ts" data-t="120.96">2:01</span></div>
+        <div class="meta"><span class="chip planned">Planned</span><span class="ts" data-t="121.84">2:02</span></div>
         <p class="data">SITE SURVEY · RIDGE 89.5° S · SUN 0–1.5°</p>
         <p class="film-side">The base stands on the ridge joining the craters Shackleton and de Gerlache. The Sun circles the horizon once every 29.5 days without ever climbing, so in the film its bearing turns 12.19° a day and its height stays near 1.2°: a 20&nbsp;m mast throws a 950&nbsp;m shadow.</p>
         <p>This ridge is some of the best-lit ground near the pole. Over a 19-year simulation, <a href="https://elib.dlr.de/94242">Gl&auml;ser et al.</a> found spots on it in sunlight 92.3% of the time at 2&nbsp;m above the ground, and 95.66% at 10&nbsp;m. Seen from Shackleton&rsquo;s rim, the Sun &ldquo;glides around the horizon&rdquo; (<a href="https://svs.gsfc.nasa.gov/4944">NASA SVS</a>), while nearby permanently shadowed crater floors stay at only tens of kelvin.</p>
@@ -462,20 +462,30 @@ footer.credits { max-width: 46rem; margin-inline: auto; padding-block: 3rem 4rem
       </div>
     </section>
 
-    <section class="tech noimg">
+    <section class="tech">
+      <figure>
+        <img src="img/solar-masts.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Gold line drawing on indigo: two tall masts carry upright rectangular solar arrays above the surveyed module footprints, with small rovers at their feet and long shadows across the ground.">
+        <figcaption><span class="ts" data-t="123.25">2:03</span> · Solar arrays raised above the polar shadows</figcaption>
+      </figure>
       <div class="txt">
         <h3><span class="n">02</span>Solar panels on masts that turn with the Sun</h3>
-        <div class="meta"><span class="chip earth">Tested on Earth</span><span class="ts" data-t="121.84">2:02</span></div>
+        <div class="meta"><span class="chip earth">Tested on Earth</span><span class="ts" data-t="122.72">2:03</span></div>
         <p class="data">SOLAR MASTS · 20 M · TRACKING THE SUN AROUND THE HORIZON</p>
         <p class="film-side">The panels stand upright, from 10.5&nbsp;m to 19.5&nbsp;m above the ground, and turn once a month to follow a Sun that never rises.</p>
         <p>NASA&rsquo;s <a href="https://www.nasa.gov/technology/nasa-industry-to-mature-vertical-solar-array-technologies-for-lunar-surface/">Vertical Solar Array Technology</a> programme puts arrays on masts to clear the shadows of polar terrain. Its reference design asks for at least 10&nbsp;kW with the bottom of the array at least 10&nbsp;m up (<a href="https://ntrs.nasa.gov/api/citations/20240004914/downloads/VSAT%20Mechanisms%20Abstract%2020240418.pdf">NASA Langley</a>). Prototypes from Honeybee and Astrobotic went through vacuum tests at Johnson Space Center in 2024 (<a href="https://www.nasa.gov/centers-and-facilities/johnson/from-houston-to-the-moon-johnsons-thermal-vacuum-chamber-tests-lunar-solar-technology">NASA</a>).</p>
       </div>
     </section>
 
-    <section class="tech noimg">
+    <section class="tech">
+      <figure>
+        <img src="img/lights.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Night on the Moon: low dark mounds of regolith cover the station's modules around a lit glass cupola, with tall solar masts and hard pools of lamplight on the ground.">
+        <figcaption><span class="ts" data-t="141.36">2:21</span> · The finished modules, sheltered under regolith</figcaption>
+      </figure>
       <div class="txt">
         <h3><span class="n">03</span>Modules buried under printed regolith</h3>
-        <div class="meta"><span class="chip earth">Tested on Earth</span><span class="chip planned">Planned</span><span class="ts" data-t="122.72">2:03</span></div>
+        <div class="meta"><span class="chip earth">Tested on Earth</span><span class="chip planned">Planned</span><span class="ts" data-t="124.48">2:04</span></div>
         <p class="data">PRESSURE VESSELS LANDED · 4 MODULES &nbsp;→&nbsp; REGOLITH PRINTER · SHIELD SHELL 2.5 M · ONE 0.6 M COURSE A DAY</p>
         <p class="film-side">The pressure vessels land first; then a gantry prints a 2.5&nbsp;m shell of Moon soil over each one, a course a day, against radiation and micrometeoroids.</p>
         <p>That is the order of a 2013 study by ESA and Foster + Partners: a dome printed from regolith over a pressurised inflatable, with cellular walls. The team printed a 1.5&nbsp;tonne demonstration block on Earth from simulated regolith with added binders (<a href="https://www.esa.int/Enabling_Support/Space_Engineering_Technology/Building_a_lunar_base_with_3D_printing">ESA</a>). NASA&rsquo;s $57.2&nbsp;million contract with ICON, running to 2028, is to develop a system that builds &ldquo;landing pads, habitats, and roads&rdquo; from local material (<a href="https://www.nasa.gov/technology/manufacturing-materials-3-d-printing/nasa-icon-advance-lunar-construction-technology-for-moon-missions/">NASA</a>).</p>
@@ -484,9 +494,9 @@ footer.credits { max-width: 46rem; margin-inline: auto; padding-block: 3rem 4rem
 
     <section class="tech">
       <figure>
-        <img src="img/cable.webp" width="1600" height="900" loading="lazy" decoding="async"
-          alt="Gold line drawing on indigo: a long cable runs from the station's domes out to the reactor's fan of radiator panels, past two solar masts, DAY 017 in the corner.">
-        <figcaption><span class="ts" data-t="128.5">2:08</span> · Power on the grid, 1&nbsp;km of cable</figcaption>
+        <img src="img/reactor.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Gold line drawing on indigo: a small cylindrical reactor and its fan of twelve upright radiator panels stand behind a long shielding berm, with an engineer beside the panels.">
+        <figcaption><span class="ts" data-t="127.65">2:07</span> · Adaeze opens the reactor&rsquo;s radiator before startup</figcaption>
       </figure>
       <div class="txt">
         <h3><span class="n">04</span>A small nuclear reactor, a kilometre out</h3>
@@ -497,10 +507,15 @@ footer.credits { max-width: 46rem; margin-inline: auto; padding-block: 3rem 4rem
       </div>
     </section>
 
-    <section class="tech noimg">
+    <section class="tech">
+      <figure>
+        <img src="img/landing-pad.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Gold line drawing on indigo: a small laser rover circles a round landing pad, leaving concentric dark passes of fused regolith inside its raised rim.">
+        <figcaption><span class="ts" data-t="130.2">2:10</span> · A rover sinters the landing pad, one circular pass at a time</figcaption>
+      </figure>
       <div class="txt">
         <h3><span class="n">05</span>A landing pad melted into glass, and a lander parked 2&nbsp;km away</h3>
-        <div class="meta"><span class="chip earth">Tested on Earth</span><span class="chip moon">On the Moon</span><span class="ts" data-t="125.35">2:06</span></div>
+        <div class="meta"><span class="chip earth">Tested on Earth</span><span class="chip moon">On the Moon</span><span class="ts" data-t="126.23">2:06</span></div>
         <p class="data">CREW LANDER DOWN · BARE REGOLITH, 2.0 KM EAST &nbsp;·&nbsp; LANDING PAD · ⌀ 50 M · LASER-SINTERED REGOLITH</p>
         <p class="film-side">A rocket landing on bare ground blasts dust and gravel outward like shot. So the first crew land 2&nbsp;km out, and a rover then circles the pad site once a day, fusing one more dark, glassy pass.</p>
         <p>ESA&rsquo;s <a href="https://www.esa.int/ESA_Multimedia/Videos/2023/10/One_small_step_on_the_way_to_lunar_roads">PAVER</a> project melted simulated regolith into paving with a 12&nbsp;kW laser on Earth; its lunar concept would use concentrated sunlight. Apollo 12&rsquo;s landing beside the Surveyor III probe showed what ejecta does to nearby hardware (<a href="https://ntrs.nasa.gov/citations/20120000029">Metzger et al.</a>), and in March 2025 NASA&rsquo;s SCALPSS cameras on Blue Ghost filmed a plume striking the surface (<a href="https://www.nasa.gov/general/nasa-cameras-on-blue-ghost-capture-first-of-its-kind-moon-landing-footage/">NASA</a>). The 2&nbsp;km is the film&rsquo;s choice, not a validated safe distance.</p>
@@ -586,15 +601,15 @@ footer.credits { max-width: 46rem; margin-inline: auto; padding-block: 3rem 4rem
 
     <section class="tech">
       <figure>
-        <img src="img/lights.webp" width="1600" height="900" loading="lazy" decoding="async"
-          alt="Night on the Moon: low dark mounds of regolith over the station's modules, a glowing glass cupola with a ring of small lit portholes, tall solar masts standing in the dark, and hard pools of lamplight on the ground.">
-        <figcaption><span class="ts" data-t="141.36">2:21</span> · Station lights, one by one</figcaption>
+        <img src="img/yutu.webp" width="576" height="432" loading="lazy" decoding="async"
+          alt="Detail of the film's artwork: a white Yutu rover with four wheel-legs, two upright solar-panel ears, a work lamp and a small trailer, connected to the drill by a yellow cable on the crater floor.">
+        <figcaption><span class="ts" data-t="131.49">2:11</span> · Yutu beside the drill · detail from the film&rsquo;s artwork</figcaption>
       </figure>
       <div class="txt">
         <h3><span class="n">11</span>The Moon rabbits</h3>
         <div class="meta"><span class="chip moon">On the Moon</span></div>
         <p>The base&rsquo;s small rovers are called Yutu 玉兔, after the rabbit in the Moon of the old story and China&rsquo;s two real rovers. Yutu-2 landed with Chang&rsquo;e-4 on the far side in January 2019 and became the longest-lived rover on the Moon (<a href="https://en.wikipedia.org/wiki/Yutu-2">Wikipedia</a>).</p>
-        <p class="film-side">The film&rsquo;s Yutu has wheel-legs and two solar panels for ears. It surveys the site (<span class="ts" data-t="120.96">2:01</span>), runs the reactor&rsquo;s cable (<span class="ts" data-t="127.1">2:07</span>), stands by at the drill (<span class="ts" data-t="131.49">2:11</span>) and unrolls the radio antennas (<span class="ts" data-t="136.76">2:16</span>).</p>
+        <p class="film-side">The film&rsquo;s Yutu has wheel-legs and two solar panels for ears. It surveys the site (<span class="ts" data-t="121.84">2:02</span>), runs the reactor&rsquo;s cable (<span class="ts" data-t="127.98">2:08</span>), stands by at the drill (<span class="ts" data-t="131.49">2:11</span>) and unrolls the radio antennas (<span class="ts" data-t="136.76">2:16</span>).</p>
       </div>
     </section>
 
@@ -606,17 +621,17 @@ footer.credits { max-width: 46rem; margin-inline: auto; padding-block: 3rem 4rem
       </figure>
       <div class="txt">
         <h3><span class="n">12</span>The Earth, as it really hangs in that sky</h3>
-        <div class="meta"><span class="chip phys">Physics</span><span class="ts" data-t="113.86">1:53</span><span class="ts" data-t="175">2:53</span></div>
+        <div class="meta"><span class="chip phys">Physics</span><span class="ts" data-t="113.86">1:53</span><span class="ts" data-t="175">2:55</span></div>
         <p class="film-side">No image model paints the Earth. The renderer draws it as a sphere from NASA&rsquo;s <a href="https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation">Blue Marble</a> day maps and <a href="https://www.earthdata.nasa.gov/data/projects/black-marble">Black Marble</a> night lights, with its phase, its tilt and the face it shows taken from <a href="https://ssd.jpl.nasa.gov/horizons/">JPL Horizons</a> for a real date and the base&rsquo;s real position.</p>
-        <p><b>It is small:</b> about two degrees across, nearly four Moons wide in our sky, and still only a thumb at arm&rsquo;s length. <b>It hangs upside down:</b> from the south pole the Earth appears &ldquo;upside-down and rotating backwards&rdquo; (<a href="https://svs.gsfc.nasa.gov/4944">NASA SVS</a>), and the film does not turn it to look familiar. <b>It stays low,</b> bobbing a few degrees above and below one stretch of horizon, which is why the comms tower&rsquo;s dish (<span class="ts" data-t="123.6">2:05</span>) points almost flat. <b>Its phase is the opposite of the Moon&rsquo;s:</b> at <span class="ts" data-t="158">2:38</span> a flight controller sends up his family&rsquo;s thin crescent Moon, and Claire answers with the Earth she sees that night, nearly full.</p>
+        <p><b>It is small:</b> about two degrees across, nearly four Moons wide in our sky, and still only a thumb at arm&rsquo;s length. <b>It hangs upside down:</b> from the south pole the Earth appears &ldquo;upside-down and rotating backwards&rdquo; (<a href="https://svs.gsfc.nasa.gov/4944">NASA SVS</a>), and the film does not turn it to look familiar. <b>It stays low,</b> bobbing a few degrees above and below one stretch of horizon, which is why the comms tower&rsquo;s dish (<span class="ts" data-t="125.35">2:05</span>) points almost flat. <b>Its phase is the opposite of the Moon&rsquo;s:</b> at <span class="ts" data-t="158">2:38</span> a flight controller sends up his family&rsquo;s thin crescent Moon, and Claire answers with the Earth she sees that night, nearly full.</p>
       </div>
     </section>
 
     <section class="tech">
       <figure>
-        <img src="img/toast.webp" width="1600" height="900" loading="lazy" decoding="async"
-          alt="Eight crew members in silhouette under the ribbed glass cupola, raising cups toward a small Earth above the bright lunar horizon, their long shadows falling across the floor.">
-        <figcaption><span class="ts" data-t="175">2:55</span> · The toast, under the cupola: the Earth for 30 August 2038</figcaption>
+        <img src="img/call-home.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Split-screen call between Earth and the Moon: a father and two children gather at a laptop in their warm-lit home, while Claire sits at the Moonbase table watching them on a tablet; a gold signal line crosses between the two halves.">
+        <figcaption><span class="ts" data-t="157.4">2:37</span> · The call home, with the signal crossing between Earth and Moon</figcaption>
       </figure>
       <div class="txt">
         <h3><span class="n">13</span>Calling home, 1.28 seconds away</h3>
@@ -627,7 +642,12 @@ footer.credits { max-width: 46rem; margin-inline: auto; padding-block: 3rem 4rem
       </div>
     </section>
 
-    <section class="tech noimg">
+    <section class="tech">
+      <figure>
+        <img src="img/rendezvous.webp" width="1600" height="900" loading="lazy" decoding="async"
+          alt="Film still in gold line and paint on indigo: Andriy raises a clenched fist in celebration beside a screen showing the capsule docked to the lunar lander under CAPTURE; another controller raises both arms at a console below.">
+        <figcaption><span class="ts" data-t="95.42">1:35</span> · Capture: Andriy celebrates the lunar orbit rendezvous</figcaption>
+      </figure>
       <div class="txt">
         <h3><span class="n">14</span>Getting there: a capsule, a lander, and a rendezvous from 1929</h3>
         <div class="meta"><span class="chip earth">Tested on Earth</span><span class="ts" data-t="75.08">1:15</span><span class="ts" data-t="95.42">1:35</span></div>

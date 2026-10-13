@@ -23,7 +23,7 @@ New frame selections were extracted from `review/moongazing_public_v10_1080p.mp4
 
 ## Liberties we took
 
-These stills sit beside the corresponding points in the liberties list, with links to their moments in the film.
+These supporting stills accompany the liberties list in a separate column, with links to their moments in the film.
 
 | Point | Site asset | Source and subject |
 | --- | --- | --- |

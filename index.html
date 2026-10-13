@@ -250,17 +250,18 @@ button.ts:hover { color: #fff3d6; }
 button.ts:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 /* liberties */
-.liberties { margin-top: clamp(3.5rem, 8vw, 5.5rem); padding-top: 1.6rem; border-top: 1px solid var(--gold-soft); max-width: 62rem; }
+.liberties { margin-top: clamp(3.5rem, 8vw, 5.5rem); padding-top: 1.6rem; border-top: 1px solid var(--gold-soft); }
 .liberties h3 { margin: 0 0 .4rem; font: 500 clamp(1.8rem, 5vw, 2.6rem)/1.1 var(--f-lyric); color: var(--moon); }
 .liberties > p { margin: 0 0 1.2rem; color: #d9d4c6; max-width: 62ch; }
-.liberties ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
-.liberties li { padding-left: 1.2rem; position: relative; color: #d9d4c6; max-width: 66ch; }
+.liberties-content { display: grid; gap: 1.5rem 2rem; align-items: start; }
+.liberties ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .65rem; }
+.liberties li { padding-left: 1.2rem; position: relative; color: #d9d4c6; min-width: 0; }
 .liberties li::before { content: ""; position: absolute; left: 0; top: .75em; width: .6rem; height: 1px; background: var(--gold); }
 .liberties li b { color: var(--moon); font-weight: 600; }
-.liberties .illustrated { display: grid; gap: 1rem 2rem; max-width: none; }
+.liberties-stills { display: grid; gap: 1.2rem; min-width: 0; }
 .liberties figure { margin: 0; display: grid; gap: .5rem; align-content: start; }
 .liberties figure img { width: 100%; box-shadow: 0 0 0 1px var(--indigo-rule); }
-@media (min-width: 900px) { .liberties .illustrated { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; } }
+@media (min-width: 900px) { .liberties-content { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } }
 .liberties > .more { margin-top: 2.2rem; font: 400 .8rem/1.7 var(--f-mono); color: var(--gold-soft); max-width: 66ch; }
 
 /* ── indigo to night: the close ────────────────────────── */
@@ -667,38 +668,36 @@ footer.credits { max-width: 46rem; margin-inline: auto; padding-block: 3rem 4rem
   <section class="liberties" aria-labelledby="lib-h">
     <h3 id="lib-h">Liberties we took</h3>
     <p>Where the film parts from the engineering, on purpose:</p>
-    <ul>
-      <li class="illustrated">
-        <div><b>One agency.</b> In the film every space programme on Earth builds the base together. Today the NASA-led and China-led lunar efforts are separate, and since 2011 US funding law has limited NASA&rsquo;s bilateral work with Chinese entities (<a href="https://science.nasa.gov/researchers/sara/faqs/prc-faq-roses/">NASA</a>). The joint programme is an imagined political arrangement.</div>
+    <div class="liberties-content">
+      <ul>
+        <li><b>One agency.</b> In the film every space programme on Earth builds the base together. Today the NASA-led and China-led lunar efforts are separate, and since 2011 US funding law has limited NASA&rsquo;s bilateral work with Chinese entities (<a href="https://science.nasa.gov/researchers/sara/faqs/prc-faq-roses/">NASA</a>). The joint programme is an imagined political arrangement.</li>
+        <li><b>A full Moon and a full Earth, cut together.</b> From 1:49 eight homes raise their heads to a full Moon, and at 1:53 the crew look at a full Earth. Those cannot be the same night: the Earth&rsquo;s phase is the opposite of the Moon&rsquo;s.</li>
+        <li><b>The Earth is drawn larger than life,</b> 1.2 to 1.3 times, so that it reads on a phone.</li>
+        <li><b>The glass cupola.</b> The modules are under 2.5&nbsp;m of printed regolith, but the hub&rsquo;s cupola stands in the open, a glass room where eight people raise a cup to the Earth. The film gives it shutters for solar storms; the production did not calculate the dose.</li>
+        <li><b>The pace.</b> The film assumes 640 days of robotic building before 97 days of crewed work. It is a fictional schedule.</li>
+        <li><b>Distances in the gold drawings.</b> The landing pad and reactor are drawn about 100&nbsp;m from the hub, on their true bearings, as a palace scroll would. In the station&rsquo;s layout they are 2&nbsp;km and 1&nbsp;km away.</li>
+        <li><b>The oxygen plant</b> makes about fourteen times the rate reported for the LR-1 test, without stopping. <b>The ice reading</b> is invented. <b>A plant</b> in lunar soil on the Moon has not been grown yet.</li>
+        <li><b>The capsule is a hybrid.</b> It has no fairing, like Mengzhou, but splashes down in the sea, as NASA&rsquo;s Orion does. Mengzhou is designed to land on the ground on airbags.</li>
+        <li><b>The launch is compressed,</b> and <span class="ts">384 400 KM</span> on every crew card is the mean distance; the real figure changes by the hour.</li>
+      </ul>
+      <div class="liberties-stills">
         <figure>
           <img src="img/joint-programme.webp" width="1600" height="900" loading="lazy" decoding="async"
             alt="Gold line drawing of a rocket and launch tower on indigo, beside the film's opening premise in English and Chinese: Every space program on Earth is building the International Moonbase.">
           <figcaption><span class="ts" data-t="20.25">0:20</span> · Every space program on Earth, building together</figcaption>
         </figure>
-      </li>
-      <li><b>A full Moon and a full Earth, cut together.</b> From 1:49 eight homes raise their heads to a full Moon, and at 1:53 the crew look at a full Earth. Those cannot be the same night: the Earth&rsquo;s phase is the opposite of the Moon&rsquo;s.</li>
-      <li><b>The Earth is drawn larger than life,</b> 1.2 to 1.3 times, so that it reads on a phone.</li>
-      <li class="illustrated">
-        <div><b>The glass cupola.</b> The modules are under 2.5&nbsp;m of printed regolith, but the hub&rsquo;s cupola stands in the open, a glass room where eight people raise a cup to the Earth. The film gives it shutters for solar storms; the production did not calculate the dose.</div>
         <figure>
           <img src="img/cupola-toast.webp" width="1600" height="900" loading="lazy" decoding="async"
             alt="Eight crew members raise their cups toward a small Earth above the lunar horizon, seen through the glass cupola's exposed ribs; their long shadows stretch across the floor.">
           <figcaption><span class="ts" data-t="174.75">2:55</span> · A toast to the Earth, under the glass cupola</figcaption>
         </figure>
-      </li>
-      <li><b>The pace.</b> The film assumes 640 days of robotic building before 97 days of crewed work. It is a fictional schedule.</li>
-      <li><b>Distances in the gold drawings.</b> The landing pad and reactor are drawn about 100&nbsp;m from the hub, on their true bearings, as a palace scroll would. In the station&rsquo;s layout they are 2&nbsp;km and 1&nbsp;km away.</li>
-      <li><b>The oxygen plant</b> makes about fourteen times the rate reported for the LR-1 test, without stopping. <b>The ice reading</b> is invented. <b>A plant</b> in lunar soil on the Moon has not been grown yet.</li>
-      <li class="illustrated">
-        <div><b>The capsule is a hybrid.</b> It has no fairing, like Mengzhou, but splashes down in the sea, as NASA&rsquo;s Orion does. Mengzhou is designed to land on the ground on airbags.</div>
         <figure>
           <img src="img/splashdown.webp" width="1600" height="900" loading="lazy" decoding="async"
             alt="Mission Control's large screen shows a capsule descending toward the sea under three orange-and-white parachutes; two controllers watch and celebrate below while Leah shares the moment on her phone in the foreground.">
           <figcaption><span class="ts" data-t="189.7">3:10</span> · Mission Control watches the capsule return to the sea</figcaption>
         </figure>
-      </li>
-      <li><b>The launch is compressed,</b> and <span class="ts">384 400 KM</span> on every crew card is the mean distance; the real figure changes by the hour.</li>
-    </ul>
+      </div>
+    </div>
     <p class="more">The full tour, with every source and the Earth-view query to repeat in JPL Horizons, is in the <a href="https://github.com/jadeqwang/moongazing-public-version#readme">README of the film&rsquo;s source</a>.</p>
   </section>
 </article>
